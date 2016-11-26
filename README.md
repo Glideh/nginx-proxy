@@ -1,7 +1,7 @@
 ![nginx 1.11.3](https://img.shields.io/badge/nginx-1.11.3-brightgreen.svg) ![License MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![Build Status](https://travis-ci.org/jwilder/nginx-proxy.svg?branch=master)](https://travis-ci.org/jwilder/nginx-proxy) [![](https://img.shields.io/docker/stars/jwilder/nginx-proxy.svg)](https://hub.docker.com/r/jwilder/nginx-proxy 'DockerHub') [![](https://img.shields.io/docker/pulls/jwilder/nginx-proxy.svg)](https://hub.docker.com/r/jwilder/nginx-proxy 'DockerHub')
 
 
-nginx-proxy sets up a container running nginx and [docker-gen][1].  docker-gen generates reverse proxy configs for nginx and reloads nginx when containers are started and stopped.
+nginx-proxy sets up a container running nginx and [docker-gen][1]. docker-gen generates reverse proxy configs for nginx and reloads nginx when containers are started and stopped.
 
 See [Automated Nginx Reverse Proxy for Docker][2] for why you might want to use this.
 
@@ -81,7 +81,7 @@ If you would like to connect to your backend using HTTPS instead of HTTP, set `V
 ### uWSGI Backends
 
 If you would like to connect to uWSGI backend, set `VIRTUAL_PROTO=uwsgi` on the
-backend container. Your backend container should than listen on a port rather
+backend container. Your backend container should then listen on a port rather
 than a socket and expose that port.
 
 ### Default Host
@@ -135,7 +135,7 @@ To enable SSL:
 
     $ docker run -d -p 80:80 -p 443:443 -v /path/to/certs:/etc/nginx/certs -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
 
-The contents of `/path/to/certs` should contain the certificates and private keys for any virtual
+The directory `/path/to/certs` should contain the certificates and private keys for any virtual
 hosts in use.  The certificate and keys should be named after the virtual host with a `.crt` and
 `.key` extension.  For example, a container with `VIRTUAL_HOST=foo.bar.com` should have a
 `foo.bar.com.crt` and `foo.bar.com.key` file in the certs directory.
@@ -162,7 +162,7 @@ and `CERT_NAME=shared` will then use this shared cert.
 
 The SSL cipher configuration is based on [mozilla nginx intermediate profile](https://wiki.mozilla.org/Security/Server_Side_TLS#Nginx) which
 should provide compatibility with clients back to Firefox 1, Chrome 1, IE 7, Opera 5, Safari 1,
-Windows XP IE8, Android 2.3, Java 7.  The configuration also enables HSTS, and SSL
+Windows XP IE8, Android 2.3, Java 7. The configuration also enables HSTS, and SSL
 session caches.
 
 The default behavior for the proxy when port 80 and 443 are exposed is as follows:
@@ -171,18 +171,18 @@ The default behavior for the proxy when port 80 and 443 are exposed is as follow
 is always preferred when available.
 * If the container does not have a usable cert, a 503 will be returned.
 
-Note that in the latter case, a browser may get an connection error as no certificate is available
-to establish a connection.  A self-signed or generic cert named `default.crt` and `default.key`
+Note that in the latter case, a browser may get a connection error as no certificate is available
+to establish a connection. A self-signed or generic cert named `default.crt` and `default.key`
 will allow a client browser to make a SSL connection (likely w/ a warning) and subsequently receive
 a 503.
 
 To serve traffic in both SSL and non-SSL modes without redirecting to SSL, you can include the
-environment variable `HTTPS_METHOD=noredirect` (the default is `HTTPS_METHOD=redirect`).  You can also
+environment variable `HTTPS_METHOD=noredirect` (the default is `HTTPS_METHOD=redirect`). You can also
 disable the non-SSL site entirely with `HTTPS_METHOD=nohttp`. `HTTPS_METHOD` must be specified
-on each container for which you want to override the default behavior.  If `HTTPS_METHOD=noredirect` is
+on each container for which you want to override the default behavior. If `HTTPS_METHOD=noredirect` is
 used, Strict Transport Security (HSTS) is disabled to prevent HTTPS users from being redirected by the
-client.  If you cannot get to the HTTP site after changing this setting, your browser has probably cached
-the HSTS policy and is automatically redirecting you back to HTTPS.  You will need to clear your browser's
+client. If you cannot get to the HTTP site after changing this setting, your browser has probably cached
+the HSTS policy and is automatically redirecting you back to HTTPS. You will need to clear your browser's
 HSTS cache or use an incognito window / different browser.
 
 ### Basic Authentication Support
@@ -206,8 +206,7 @@ If you need to configure Nginx beyond what is possible using environment variabl
 
 #### Replacing default proxy settings
 
-If you want to replace the default proxy settings for the nginx container, add a configuration file at `/etc/nginx/proxy.conf`. A file with the default settings would
-look like this:
+If you want to replace the default proxy settings for the nginx container, add a configuration file at `/etc/nginx/proxy.conf`. A file with the default settings would look like this:
 
 ```Nginx
 # HTTP 1.1 support
@@ -226,7 +225,7 @@ proxy_set_header Proxy "";
 
 ***NOTE***: If you provide this file it will replace the defaults; you may want to check the .tmpl file to make sure you have all of the needed options.
 
-***NOTE***: The default configuration blocks the `Proxy` HTTP request header from being sent to downstream servers.  This prevents attackers from using the so-called [httpoxy attack](http://httpoxy.org).  There is no legitimate reason for a client to send this header, and there are many vulnerable languages / platforms (`CVE-2016-5385`, `CVE-2016-5386`, `CVE-2016-5387`, `CVE-2016-5388`, `CVE-2016-1000109`, `CVE-2016-1000110`, `CERT-VU#797896`).
+***NOTE***: The default configuration blocks the `Proxy` HTTP request header from being sent to downstream servers. This prevents attackers from using the so-called [httpoxy attack](http://httpoxy.org). There is no legitimate reason for a client to send this header, and there are many vulnerable languages / platforms (`CVE-2016-5385`, `CVE-2016-5386`, `CVE-2016-5387`, `CVE-2016-5388`, `CVE-2016-1000109`, `CVE-2016-1000110`, `CERT-VU#797896`).
 
 #### Proxy-wide
 
@@ -264,8 +263,7 @@ If you are using multiple hostnames for a single container (e.g. `VIRTUAL_HOST=e
 
 #### Per-VIRTUAL_HOST default configuration
 
-If you want most of your virtual hosts to use a default single configuration and then override on a few specific ones, add those settings to the `/etc/nginx/vhost.d/default` file. This file
-will be used on any virtual host which does not have a `/etc/nginx/vhost.d/{VIRTUAL_HOST}` file associated with it.
+If you want most of your virtual hosts to use a default single configuration and then override on a few specific ones, add those settings to the `/etc/nginx/vhost.d/default` file. This file will be used on any virtual host which does not have a `/etc/nginx/vhost.d/{VIRTUAL_HOST}` file associated with it.
 
 #### Per-VIRTUAL_HOST location configuration
 
@@ -284,8 +282,7 @@ If you are using multiple hostnames for a single container (e.g. `VIRTUAL_HOST=e
 
 #### Per-VIRTUAL_HOST location default configuration
 
-If you want most of your virtual hosts to use a default single `location` block configuration and then override on a few specific ones, add those settings to the `/etc/nginx/vhost.d/default_location` file. This file
-will be used on any virtual host which does not have a `/etc/nginx/vhost.d/{VIRTUAL_HOST}` file associated with it.
+If you want most of your virtual hosts to use a default single `location` block configuration and then override on a few specific ones, add those settings to the `/etc/nginx/vhost.d/default_location` file. This file will be used on any virtual host which does not have a `/etc/nginx/vhost.d/{VIRTUAL_HOST}` file associated with it.
 
 ### Contributing
 
